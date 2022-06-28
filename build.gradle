@@ -1,23 +1,13 @@
 plugins {
-    id 'idea'
     id "io.spring.dependency-management" version "1.0.11.RELEASE"
     id 'com.github.johnrengelman.shadow' version '7.1.2' apply false
-}
-
-idea {
-    project {
-        languageLevel = 17
-    }
-    module {
-        downloadJavadoc = true
-        downloadSources = true
-    }
 }
 
 allprojects {
     group "ru.otus"
 
     repositories {
+        mavenLocal()
         mavenCentral()
     }
 
