@@ -9,6 +9,7 @@ import java.security.ProtectionDomain;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
+import org.objectweb.asm.Label;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.AdviceAdapter;
@@ -69,6 +70,22 @@ public class Agent {
             } else {
                 super.visitInsn(opcode);
             }
+        }
+
+        @Override
+        public void visitLocalVariable(
+                final String name,
+                final String descriptor,
+                final String signature,
+                final Label start,
+                final Label end,
+                final int index) {
+            System.out.println("visited name:" + name +
+                    ", descriptor:" + descriptor +
+                    ", signature:" + signature +
+                    ", index:" + index
+            );
+            super.visitLocalVariable(name, descriptor, signature, start, end, index);
         }
     }
 }
