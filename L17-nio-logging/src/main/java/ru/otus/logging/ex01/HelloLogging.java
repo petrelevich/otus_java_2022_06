@@ -15,7 +15,7 @@ public class HelloLogging {
 
 /*      Устаревший вариант
         if (logger.isDebugEnabled()) {
-            logger.error("Hello logging:" + value);
+            logger.debug("Hello logging:" + value);
         }
 */
 
