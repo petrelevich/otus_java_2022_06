@@ -32,15 +32,18 @@ allprojects {
             dependency("com.google.code.gson:gson:${Versions.gson}")
             dependency("com.datastax.oss:java-driver-core:${Versions.cassandra}")
 
-            dependency ("org.mongodb:mongodb-driver-core:${Versions.mongodb}")
+            dependency("org.mongodb:mongodb-driver-core:${Versions.mongodb}")
             dependency("org.mongodb:mongodb-driver-sync:${Versions.mongodb}")
             dependency("org.mongodb:bson:${Versions.mongodb}")
-
             dependency("org.mongodb:mongodb-driver-reactivestreams:${Versions.mongodbReactive}")
-
             dependency("org.neo4j.driver:neo4j-java-driver:${Versions.neo4j}")
-
             dependency("redis.clients:jedis:${Versions.jedis}")
+
+            dependency("org.webjars:sockjs-client:${Versions.sockjs}")
+            dependency("org.webjars:stomp-websocket:${Versions.stomp}")
+            dependency("org.webjars:bootstrap:${Versions.bootstrap}")
+            dependency("org.springdoc:springdoc-openapi-ui:${Versions.springDocOpenapiUi}")
+
         }
     }
 
