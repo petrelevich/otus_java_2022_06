@@ -44,6 +44,7 @@ allprojects {
             dependency("org.webjars:bootstrap:${Versions.bootstrap}")
             dependency("org.springdoc:springdoc-openapi-ui:${Versions.springDocOpenapiUi}")
 
+            dependency("com.google.code.findbugs:jsr305:${Versions.jsr305}")
         }
     }
 
