@@ -60,4 +60,6 @@ include 'L28-websocket:messager-starter'
 include 'L28-websocket:application'
 
 include 'L29-springDataJdbc'
+
 include 'L30-threads'
+include 'L31-JMM'
