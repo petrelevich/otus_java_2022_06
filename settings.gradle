@@ -13,7 +13,7 @@ include 'L06-annotations'
 include 'L08-gc:demo'
 include 'L08-gc:homework'
 
-//include 'L09-docker'
+include 'L09-docker'
 
 include 'L10-byteCodes'
 
@@ -63,3 +63,4 @@ include 'L29-springDataJdbc'
 
 include 'L30-threads'
 include 'L31-JMM'
+include 'L32-executors'

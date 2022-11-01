@@ -7,8 +7,8 @@ jib {
         tags = [project.version.toString()]
         image = 'registry.gitlab.com/petrelevich/dockerregistry/rest-hello'
         auth {
-            username = gitlabUser
-            password = gitlabPassword
+            username = gitlabUser ?: ""
+            password = gitlabPassword ?: ""
         }
     }
 }
