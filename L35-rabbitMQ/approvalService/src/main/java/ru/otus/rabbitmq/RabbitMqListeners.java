@@ -2,6 +2,7 @@ package ru.otus.rabbitmq;
 
 import com.rabbitmq.client.Channel;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.amqp.support.AmqpHeaders;
@@ -32,6 +33,9 @@ public class RabbitMqListeners {
         TimeUnit.SECONDS.sleep(10);
         //channel.basicAck(tag, false);
         rabbitMqService.sendClientApprovedEvent(client);
+
+        // Для ackMode = "AUTO" и перехода в dead letter exchange
+        //throw new AmqpRejectAndDontRequeueException("Ooops");
     }
 
     @RabbitListener(queues = "all-clients-events-queue")
@@ -39,16 +43,15 @@ public class RabbitMqListeners {
         log.info("В all-clients-events-queue было получено сообщение: {}", message);
     }
 
+    @RabbitListener(queues = "dead-letter-queue")
+    public void deadLetterQueueListener(Message message) {
+        log.info("Было получено dead-сообщение: {}", message);
+    }
+
     private VerificationStatus getRandomStatus(){
         Random random = new Random();
         return random.nextBoolean()? VerificationStatus.VERIFIED: VerificationStatus.REJECTED;
     }
-
-
-
-
-
-
 
     @RabbitListener(queues = "new-clients-rpc-queue")
     public Client newClientsEventsRpcQueueListener(Client client) throws Exception {
@@ -56,6 +59,4 @@ public class RabbitMqListeners {
         TimeUnit.SECONDS.sleep(10);
         return client;
     }
-
-
 }

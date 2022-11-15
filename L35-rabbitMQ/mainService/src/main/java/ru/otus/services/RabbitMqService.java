@@ -19,19 +19,6 @@ public class RabbitMqService {
         rabbitTemplate.convertAndSend("clients.new_created", client);
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     public Client sendClientCreatedEventAndWait(Client client) {
         return (Client) rabbitTemplate.convertSendAndReceive("clients.rpc.new_created", client);
     }
