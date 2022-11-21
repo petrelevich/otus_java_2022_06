@@ -5,6 +5,8 @@ import io.netty.channel.ChannelInitializer;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,6 +23,7 @@ public class EchoServer {
     private static final int THREAD_POOL_SIZE = 2;
     private static final int PORT = 8080;
 
+    private final Executor longActionExecutor = Executors.newFixedThreadPool(4);
 
     public static void main(String[] args) throws Exception {
         new EchoServer().start();
@@ -45,7 +48,7 @@ public class EchoServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) {
-                            ch.pipeline().addLast(new EchoServerHandler());
+                            ch.pipeline().addLast(new EchoServerHandler(longActionExecutor));
                         }
                     });
 

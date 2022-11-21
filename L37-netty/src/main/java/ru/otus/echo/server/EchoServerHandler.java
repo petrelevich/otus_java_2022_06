@@ -7,6 +7,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
+import java.util.concurrent.Executor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +19,10 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(EchoServerHandler.class);
     private final ByteBuf bufForInMsg = new PooledByteBufAllocator(true).directBuffer(5);
 
-    public EchoServerHandler() {
+    private final Executor longActionExecutor;
+    public EchoServerHandler(Executor longActionExecutor) {
         logger.info("new EchoServerHandler created");
+        this.longActionExecutor = longActionExecutor;
     }
 
     @Override
@@ -62,16 +65,21 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     private void handleRequest(ChannelHandlerContext ctx, ByteArrayOutputStream byteArray) {
         logger.info("this:{}, client:{}, data:{}", this, ctx.channel().remoteAddress(), byteArray);
 
-        var normalizedString = byteArray.toString().replace("\r", "").replace("\n", "");
+        var request = byteArray.toString();
+        var normalizedString = request.replace("\r", "").replace("\n", "");
         if ("wait".equals(normalizedString)) {
-            someAction();
+            longActionExecutor.execute(() -> {
+                someAction(request);
+                ctx.writeAndFlush(Unpooled.copiedBuffer(request, CharsetUtil.UTF_8));
+            });
+        } else {
+            ctx.writeAndFlush(Unpooled.copiedBuffer(request, CharsetUtil.UTF_8));
         }
-        ctx.writeAndFlush(Unpooled.copiedBuffer(byteArray.toString(), CharsetUtil.UTF_8));
     }
 
-    private void someAction() {
+    private void someAction(String request) {
         try {
-            logger.info("some long action");
+            logger.info("some long action, request:{}", request);
             Thread.sleep(TimeUnit.MINUTES.toMillis(1));
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
