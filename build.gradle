@@ -57,6 +57,7 @@ allprojects {
             failOnVersionConflict()
         }
         resolutionStrategy {
+            force("org.ow2.asm:asm:9.4")
             force("javax.servlet:servlet-api:2.4")
             force("commons-logging:commons-logging:1.1.1")
             force("commons-lang:commons-lang:2.5")
