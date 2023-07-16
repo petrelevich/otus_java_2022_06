@@ -4,16 +4,13 @@ import ru.otus.annotation.Id;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T>{
+public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
     private Class<T> clazz;
-    public EntityClassMetaDataImpl(Class<T> cl)
-    {
+
+    public EntityClassMetaDataImpl(Class<T> cl) {
         clazz = cl;
     }
 
@@ -38,8 +35,8 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T>{
 
     @Override
     public Field getIdField() {
-        for(Field fl: getAllFields()){
-            if(fl.isAnnotationPresent(Id.class)){
+        for (Field fl : getAllFields()) {
+            if (fl.isAnnotationPresent(Id.class)) {
                 return fl;
             }
         }
@@ -53,6 +50,6 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T>{
 
     @Override
     public List<Field> getFieldsWithoutId() {
-        return getAllFields().stream().filter(fl->!fl.isAnnotationPresent(Id.class)).toList();
+        return getAllFields().stream().filter(fl -> !fl.isAnnotationPresent(Id.class)).toList();
     }
 }

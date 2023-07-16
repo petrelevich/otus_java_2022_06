@@ -1,9 +1,7 @@
 package ru.otus.jdbc.mapper;
 
 import ru.otus.core.repository.DataTemplate;
-import ru.otus.core.repository.DataTemplateException;
 import ru.otus.core.repository.executor.DbExecutor;
-import ru.otus.crm.model.Client;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -33,9 +31,9 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
     public Optional<T> findById(Connection connection, long id) {
         return dbExecutor.executeSelect(connection, entitySQLMetaData.getSelectByIdSql(), List.of(id), rs -> {
             List<T> res = getObjects(rs);
-            if(res.size() == 0){
+            if (res.size() == 0) {
                 return null;
-            }else{
+            } else {
                 return res.get(0);
             }
         });
@@ -93,7 +91,7 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
     private List<Object> getValuesForInsert(T client) {
         List<Object> result = new ArrayList<>();
         boolean accessible;
-        for (Field fieldData: entitySQLMetaData.getEntityClassMetaData().getFieldsWithoutId()){
+        for (Field fieldData : entitySQLMetaData.getEntityClassMetaData().getFieldsWithoutId()) {
             try {
                 accessible = fieldData.canAccess(client);
                 fieldData.setAccessible(true);
@@ -110,7 +108,7 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
         List<Object> result = new ArrayList<>();
         boolean accessible;
         try {
-            for (Field fieldData: entitySQLMetaData.getEntityClassMetaData().getFieldsWithoutId()){
+            for (Field fieldData : entitySQLMetaData.getEntityClassMetaData().getFieldsWithoutId()) {
                 accessible = fieldData.canAccess(client);
                 fieldData.setAccessible(true);
                 result.add(fieldData.get(client));
