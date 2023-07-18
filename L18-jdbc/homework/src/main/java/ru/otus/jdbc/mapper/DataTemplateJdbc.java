@@ -1,7 +1,10 @@
 package ru.otus.jdbc.mapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.otus.core.repository.DataTemplate;
 import ru.otus.core.repository.executor.DbExecutor;
+import ru.otus.demo.DbServiceDemo;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -21,6 +24,7 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
 
     private final DbExecutor dbExecutor;
     private final EntitySQLMetaData entitySQLMetaData;
+    private static final Logger log = LoggerFactory.getLogger(DataTemplateJdbc.class);
 
     public DataTemplateJdbc(DbExecutor dbExecutor, EntitySQLMetaData entitySQLMetaData) {
         this.dbExecutor = dbExecutor;
@@ -41,32 +45,36 @@ public class DataTemplateJdbc<T> implements DataTemplate<T> {
 
     private List<T> getObjects(ResultSet rs) {
         List<T> result = new ArrayList<>();
-        ResultSetMetaData resultSetMetaData = null;
-        try {
-            resultSetMetaData = rs.getMetaData();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        final int columnCount;
-        try {
-            columnCount = resultSetMetaData.getColumnCount();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            while (rs.next()) {
-                Object[] values = new Object[columnCount];
-                for (int i = 1; i <= columnCount; i++) {
-                    try {
-                        values[i - 1] = rs.getObject(i);
-                    } catch (SQLException e) {
-                        throw new RuntimeException(e);
-                    }
-                }
-                result.add((T) entitySQLMetaData.getEntityClassMetaData().getConstructor().newInstance(values));
+        if (rs != null) {
+            ResultSetMetaData resultSetMetaData = null;
+            try {
+                resultSetMetaData = rs.getMetaData();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
             }
-        } catch (SQLException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
-            throw new RuntimeException(e);
+            final int columnCount;
+            try {
+                columnCount = resultSetMetaData.getColumnCount();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+            try {
+                while (rs.next()) {
+                    Object[] values = new Object[columnCount];
+                    for (int i = 1; i <= columnCount; i++) {
+                        try {
+                            values[i - 1] = rs.getObject(i);
+                        } catch (SQLException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                    result.add((T) entitySQLMetaData.getEntityClassMetaData().getConstructor().newInstance(values));
+                }
+            } catch (SQLException | InstantiationException | IllegalAccessException | InvocationTargetException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            log.error("ResultSet (rs): is null");
         }
         return result;
     }
