@@ -13,9 +13,9 @@ import java.util.Collections;
 import java.util.List;
 
 public class ExecutorDemo {
-    private static final String URL = "jdbc:postgresql://localhost:5430/demoDB";
-    private static final String USER = "usr";
-    private static final String PASSWORD = "pwd";
+    private static final String URL = "jdbc:postgresql://localhost:5432/postgres";
+    private static final String USER = "pg";
+    private static final String PASSWORD = "pg";
 
     private static final Logger log = LoggerFactory.getLogger(ExecutorDemo.class);
 
