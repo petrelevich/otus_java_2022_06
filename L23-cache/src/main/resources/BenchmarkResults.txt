@@ -1,0 +1,5 @@
+Benchmark                  Mode  Cnt  Score   Error  Units
+HomeWork.testWithoutCache  avgt   10  2,471 ± 0,469   s/op
+
+Benchmark                  Mode  Cnt  Score   Error  Units
+HomeWork.testWithCache     avgt   10  0,159 ± 0,106   s/op
