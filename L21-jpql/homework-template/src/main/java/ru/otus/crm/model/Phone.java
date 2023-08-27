@@ -26,6 +26,10 @@ public class Phone {
   @Column(name = "number")
   private String number;
 
+  public Phone(String number) {
+    this.number = number;
+  }
+
   public Phone(Long id, String number) {
     this.id = id;
     this.number = number;

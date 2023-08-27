@@ -3,8 +3,6 @@ package ru.otus.crm.model;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,6 +25,10 @@ public class Address {
 
   @Column(name = "street")
   private String street;
+
+  public Address(String street) {
+    this.street = street;
+  }
 
   public Address(Long id, String street) {
     this.id = id;
