@@ -76,4 +76,9 @@ public class DbServiceClientWithCache implements DBServiceClient {
       return clientList;
     });
   }
+
+  @Override
+  public int getCacheSize() {
+    return cache.size();
+  }
 }

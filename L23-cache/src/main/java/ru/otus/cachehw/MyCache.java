@@ -45,6 +45,11 @@ public class MyCache<K, V> implements HwCache<K, V> {
         }
     }
 
+    @Override
+    public int size() {
+        return cache.size();
+    }
+
     private void callListener(K key, V value, String action) {
         if (listener != null) {
             listener.notify(key, value, action);

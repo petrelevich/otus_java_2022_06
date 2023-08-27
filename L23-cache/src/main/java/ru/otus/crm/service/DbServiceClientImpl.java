@@ -52,4 +52,9 @@ public class DbServiceClientImpl implements DBServiceClient {
             return clientList;
        });
     }
+
+    @Override
+    public int getCacheSize() {
+        return 0;
+    }
 }
