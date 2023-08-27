@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'me.champeau.jmh' version '0.6.8'
 }
 
 sourceCompatibility = JavaVersion.VERSION_17
@@ -8,4 +9,12 @@ targetCompatibility = JavaVersion.VERSION_17
 dependencies {
     implementation("ch.qos.logback:logback-classic")
     implementation("org.ehcache:ehcache")
+
+    implementation 'org.flywaydb:flyway-core'
+    implementation 'org.postgresql:postgresql'
+    implementation 'com.zaxxer:HikariCP'
+
+    implementation 'org.openjdk.jmh:jmh-core:1.36'
+    implementation 'org.openjdk.jmh:jmh-generator-annprocess:1.36'
+    annotationProcessor 'org.openjdk.jmh:jmh-generator-annprocess:1.36'
 }
